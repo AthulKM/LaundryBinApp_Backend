@@ -6,7 +6,7 @@ export const addNewCategory = async (req, res) => {
     try {
         const { name } = req.body;
 
-    const existingCategory = await Category.findOne({name});
+        const existingCategory = await Category.findOne({ name });
 
     if (existingCategory) {
         return res.status(400).json({
@@ -22,7 +22,7 @@ export const addNewCategory = async (req, res) => {
     }
 
     const newCategory = new Category({
-        name,
+        name:req.body.name,
         image: imagePath
     });
     await newCategory.save();
@@ -31,7 +31,7 @@ export const addNewCategory = async (req, res) => {
         Message: "New category added successfully",
         status: "Success",
         error: false,
-        category: newCategory
+        data: newCategory
     });
     } catch (error) {
         console.error("Error adding category:", error);
@@ -82,7 +82,8 @@ export const getCategoryById = async (req, res) => {
         res.status(200).json({
             Message: "Category retrieved successfully",
             status: "Success",
-            error: false
+            error: false,
+            data:category
         });
 
     } catch (error) {
@@ -126,7 +127,8 @@ export const updateCategory = async (req, res) => {
             }
             res.status(200).json({
                 message: "Category updated successfully",
-                category: updatedCategory
+                status:"Success",
+                data: updatedCategory
             });
         } catch (error) {
             res.status(500).json({
