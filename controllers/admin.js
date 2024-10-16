@@ -1,4 +1,4 @@
-import Admin from '../models/Admin.js';
+import Admin from '../models/admin.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
@@ -12,7 +12,11 @@ export const registerAdmin = async (req, res) => {
 
     const adminExists = await Admin.findOne({ email });
     if (adminExists) {
-        return res.status(400).json({ message: 'Admin with this email already exists' });
+        return res.status(400).json({
+            message: 'Admin with this email already exists',
+            status: "Failed",
+            error:true
+        });
     }
 
     // Hash the password before saving into the database
